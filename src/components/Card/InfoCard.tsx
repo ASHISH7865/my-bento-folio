@@ -1,0 +1,133 @@
+'use client'
+
+import Image from 'next/image'
+import React, { useEffect, useState } from 'react'
+import { Button } from '../ui/button'
+import { MapPin, Moon, Sun } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { useTheme } from 'next-themes'
+import { MorphingText } from '@/components/ui/morphing-text'
+import { Profile } from '@/payload-types'
+
+
+interface InfoCardProps {
+  className?: string
+  profile: Profile
+}
+
+const InfoCard = ({ className, profile }: InfoCardProps) => {
+  const { theme, setTheme } = useTheme()
+  const [currentTime, setCurrentTime] = useState(new Date())
+
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark')
+  }
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date())
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [])
+
+
+  return (
+    <div
+      className={cn(
+        className,
+        'flex flex-col overflow-hidden size-full relative z-10 p-5 items-start justify-between gap-8 max-sm:h-[275px] max-sm:gap-4',
+      )}
+    >
+      <div className="w-full flex justify-between items-start">
+        <div className="flex gap-3">
+          <Image
+            className="rounded-full size-16"
+            src={profile.image.url}
+            alt={`${profile.name}'s profile`}
+            width={64}
+            height={64}
+          />
+          <div className="flex flex-col">
+            <span className="font-bold text-lg">{profile.name}</span>
+            <span className="text-md font-mono dark:text-black/70 text-zinc-400/80">
+              {profile.username}
+            </span>
+          </div>
+        </div>
+        <div className="flex flex-col items-end">
+          <Button className="rounded-full" variant={'ghost'} onClick={toggleTheme}>
+            {theme === 'dark' ? <Sun /> : <Moon />}
+          </Button>
+          <div className="flex items-center gap-1 text-sm text-zinc-500 mt-1">
+            <MapPin className="text-blue-500" size={14} />
+            <span>Noida, India</span>
+            <span className="text-xs">(GMT+5:30)</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-1 overflow-hidden w-full">
+        <div className="font-bold w-full flex items-center justify-start gap-1">
+          <p className="inline text-lg">I build</p>
+          <div className="min-w-[5.5rem]">
+            <MorphingText texts={profile.specialties?.map((specialty) => specialty?.text || '') || []} />
+          </div>
+          <span>.</span>
+        </div>
+        <p className="text-xs flex flex-col gap-2 text-md font-mono dark:text-black/90 text-zinc-200/90">
+          {profile.bio?.map((bio, i) => (
+            <span key={i}>{bio?.text}</span>
+          ))}
+        </p>
+      </div>
+
+      <div className="flex justify-between w-full gap-5 items-end self-end">
+        <div className="">
+          <p className="text-xs font-mono dark:text-black/70 text-zinc-400/70 bg-yellow-600 text-black dark:text-black">{profile.tagline}</p>
+        </div>
+
+        <div className="right-8 flex flex-col gap-3">
+          <div className="font-mono flex justify-end items-center gap-1 text-sm text-zinc-400 dark:text-black/70">
+            <div
+              className={cn(
+                'h-1.5 w-1.5 rounded-full',
+                profile.availability?.status ? 'bg-green-500' : 'bg-red-500',
+              )}
+            ></div>
+            <p className="text-[11px]">{profile.availability?.text}</p>
+          </div>
+          <div className="flex flex-row-reverse items-end gap-3">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1">
+                <span className="text-sm font-medium">
+                  {currentTime.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true,
+                  })}
+                </span>
+                <span className="text-[10px] text-zinc-400">
+                  {currentTime.toLocaleTimeString('en-US', {
+                    second: '2-digit',
+                  })}
+                </span>
+              </div>
+            </div>
+            <div className="text-[10px] text-zinc-400">
+              {currentTime.toLocaleDateString('en-US', {
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default InfoCard
