@@ -380,9 +380,6 @@ const GraphNavigation: React.FC<GraphNavigationProps> = ({ isOpen, onClose, curr
                                                             ? "bg-gradient-to-br from-primary/30 to-primary/10 border-primary text-primary shadow-lg"
                                                             : "bg-gradient-to-br from-muted/70 to-muted/30 border-border text-muted-foreground hover:bg-muted shadow-md"
                                                 )}
-                                                style={{
-                                                    filter: isActive || isHovered ? 'url(#glow)' : 'none'
-                                                }}
                                             >
                                                 {/* Icon with enhanced animations */}
                                                 <motion.div
@@ -435,65 +432,11 @@ const GraphNavigation: React.FC<GraphNavigationProps> = ({ isOpen, onClose, curr
                                                 {node.label}
                                             </motion.span>
 
-                                            {/* Enhanced pulse effects for active node */}
-                                            {isActive && (
-                                                <>
-                                                    <motion.div
-                                                        className="absolute inset-0 rounded-full border-2 border-primary"
-                                                        initial={{ scale: 1, opacity: 1 }}
-                                                        animate={{ scale: 1.8, opacity: 0 }}
-                                                        transition={{
-                                                            duration: 2,
-                                                            repeat: Infinity,
-                                                            ease: "easeOut"
-                                                        }}
-                                                    />
-                                                    <motion.div
-                                                        className="absolute inset-0 rounded-full border border-primary/60"
-                                                        initial={{ scale: 1, opacity: 0.8 }}
-                                                        animate={{ scale: 2.2, opacity: 0 }}
-                                                        transition={{
-                                                            duration: 2,
-                                                            repeat: Infinity,
-                                                            ease: "easeOut",
-                                                            delay: 0.3
-                                                        }}
-                                                    />
-                                                </>
-                                            )}
-
                                         </motion.div>
                                     </Link>
                                 </motion.div>
                             )
                         })}
-
-                        {/* Enhanced Center title with glassmorphism */}
-                        <motion.div
-                            className="fixed bottom-0 left-1/2 transform -translate-x-1/2"
-                        >
-                            <div className="text-center bg-background/20 backdrop-blur-lg rounded-2xl p-6 border border-border/20 shadow-lg">
-                                <motion.h2
-                                    className="text-2xl font-bold text-foreground mb-2 bg-gradient-to-r from-primary to-primary/60 bg-clip-text "
-                                    animate={{ opacity: [0.8, 1, 0.8] }}
-                                    transition={{ duration: 2, repeat: Infinity }}
-                                >
-                                    Interactive Navigation
-                                </motion.h2>
-                                <motion.p
-                                    className="text-sm text-muted-foreground"
-                                    key={hoveredNode || 'default'}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    {hoveredNode
-                                        ? `🚀 Navigate to ${navigationNodes.find(n => n.id === hoveredNode)?.label}`
-                                        : "✨ Hover over nodes to explore connections"
-                                    }
-                                </motion.p>
-                            </div>
-                        </motion.div>
 
                         {/* Enhanced Close button */}
                         <motion.button
@@ -502,7 +445,7 @@ const GraphNavigation: React.FC<GraphNavigationProps> = ({ isOpen, onClose, curr
                             exit={{ opacity: 0, scale: 0.8, rotate: 90 }}
                             transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
                             onClick={onClose}
-                            className="absolute top-6 right-6 w-12 h-12 rounded-full bg-background/50 backdrop-blur-md border border-border/50 hover:bg-destructive/10 hover:border-destructive/30 flex items-center justify-center transition-all duration-300 group shadow-lg"
+                            className="fixed top-6 right-6 w-12 h-12 rounded-full bg-background/50 backdrop-blur-md border border-border/50 hover:bg-destructive/10 hover:border-destructive/30 flex items-center justify-center transition-all duration-300 group shadow-lg"
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                         >
@@ -527,7 +470,7 @@ const GraphNavigation: React.FC<GraphNavigationProps> = ({ isOpen, onClose, curr
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 1, duration: 0.5 }}
-                            className="absolute top-6 -right-32 bg-background/30 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-border/30 text-xs text-muted-foreground"
+                            className="fixed top-6 right-20 transform -translate-x-1/2 bg-background/30 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-border/30 text-xs text-muted-foreground"
                         >
                             Press <kbd className="px-1.5 py-0.5 bg-muted/50 rounded text-xs border border-border/50">ESC</kbd> to close
                         </motion.div>
