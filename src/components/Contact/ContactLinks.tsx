@@ -62,7 +62,7 @@ const ContactLinks = ({ className, profile }: ContactLinksProps) => {
 
   return (
     <div className={cn(
-      'relative flex w-full rounded-xl border dark:border-dark-5 border-dark-3 transform-gpu bg-dark-1 [box-shadow:0_0px_60px_-20px_#ffffff1f_inset] cursor-grab dark:bg-white max-sm:h-max',
+      'relative flex w-full rounded-xl border dark:border-dark-5 border-dark-3 transform-gpu bg-dark-1 [box-shadow:0_0px_60px_-20px_#ffffff1f_inset] cursor-grab dark:bg-white h-full',
       className
     )}>
       <div className="flex flex-col overflow-hidden size-full relative z-10 p-4 items-start justify-between gap-4 max-sm:gap-3">
