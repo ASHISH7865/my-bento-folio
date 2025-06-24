@@ -1,8 +1,7 @@
 "use client";
-import React, { useState, useRef, useEffect, JSX } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import React, { useState, JSX } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 
 type Card = {
   id: number;
@@ -63,7 +62,7 @@ const ImageComponent = ({ card }: { card: Card }) => {
   return (
     <motion.img
       layoutId={`image-${card.id}-image`}
-      src={card.thumbnail}
+      src={typeof card.thumbnail === 'string' ? card.thumbnail : ''}
       height="500"
       width="500"
       className={cn(

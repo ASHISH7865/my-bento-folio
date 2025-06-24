@@ -81,5 +81,51 @@ export const Profiles: CollectionConfig = {
         },
       ],
     },
+    {
+      name: 'socialLinks',
+      type: 'group',
+      fields: [
+        {
+          name: 'github',
+          type: 'text',
+          label: 'GitHub URL',
+          admin: {
+            description: 'Your GitHub profile URL (e.g., https://github.com/username)',
+          },
+        },
+        {
+          name: 'linkedin',
+          type: 'text',
+          label: 'LinkedIn URL',
+          admin: {
+            description: 'Your LinkedIn profile URL (e.g., https://linkedin.com/in/username)',
+          },
+        },
+        {
+          name: 'twitter',
+          type: 'text',
+          label: 'Twitter URL',
+          admin: {
+            description: 'Your Twitter profile URL (e.g., https://twitter.com/username)',
+          },
+        },
+        {
+          name: 'website',
+          type: 'text',
+          label: 'Website URL',
+          admin: {
+            description: 'Your personal website URL',
+          },
+        },
+        {
+          name: 'email',
+          type: 'email',
+          label: 'Contact Email',
+          admin: {
+            description: 'Email address for contact inquiries',
+          },
+        },
+      ],
+    },
   ],
 }

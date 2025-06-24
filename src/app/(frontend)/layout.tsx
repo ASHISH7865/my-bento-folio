@@ -2,6 +2,7 @@ import React from 'react'
 import { Space_Grotesk } from 'next/font/google'
 import './styles.css'
 import { ThemeProvider } from 'next-themes'
+import FloatingNavTrigger from '@/components/Navigation/FloatingNavTrigger'
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -26,6 +27,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             enableSystem
             disableTransitionOnChange
           >
+            <FloatingNavTrigger />
             {children}
           </ThemeProvider>
         </main>

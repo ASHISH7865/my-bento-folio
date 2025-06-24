@@ -10,10 +10,10 @@ interface TechStackProps {
 
 const TechStack = ({ techStack }: TechStackProps) => {
     // Convert array of tech stack items into an object grouped by category
-    const groupedTechStack = techStack.reduce((acc , item) => {
+    const groupedTechStack = techStack.reduce((acc: Record<string, string[]>, item) => {
         return {
             ...acc,
-            [item.category]: item.skills?.map(skill => skill.name).filter(Boolean) || []
+            [item.category]: item.skills?.map(skill => skill?.name).filter((name): name is string => Boolean(name)) || []
         }
     }, {} as Record<string, string[]>);
 
@@ -24,13 +24,13 @@ const TechStack = ({ techStack }: TechStackProps) => {
                 <div className='flex flex-col gap-2'>
                     <span className='text-5xl font-bold'>Tech</span>
                     <span className='text-5xl font-bold'>Stack</span>
-                    <div className='h-1 bg-gray-200 rounded-full w-0 group-hover:w-full transition-all duration-500 ease-in-out'></div>
+                    <div className='h-1 bg-primary rounded-full w-0 group-hover:w-full transition-all duration-500 ease-in-out'></div>
                 </div>
             </div>
             <div className='h-[400px] overflow-y-auto pr-4 scrollbar-custom'>
                 {Object.entries(groupedTechStack).map(([category, skills]) => (
                     <div key={category} className='space-y-2 mb-4'>
-                        <p className='capitalize'>{category} :</p>
+                        <p className='capitalize'>{category}</p>
                         <div className='flex flex-wrap gap-2'>
                             {skills.map((skill: string) => (
                                 <Badge variant="outline" className='rounded-full' key={skill}>{skill}</Badge>

@@ -11,6 +11,9 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { TechStack } from './collections/TechStack'
 import { Profiles } from './collections/Profile'
+import { Contacts } from './collections/Contact'
+import { Blogs } from './collections/Blog'
+import { Projects } from './collections/Projects'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -22,7 +25,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media , Profiles , TechStack],
+  collections: [Users, Media, Profiles, TechStack, Contacts, Blogs, Projects],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

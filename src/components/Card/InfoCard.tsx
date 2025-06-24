@@ -17,7 +17,10 @@ interface InfoCardProps {
 
 const InfoCard = ({ className, profile }: InfoCardProps) => {
   const { theme, setTheme } = useTheme()
-  const [currentTime, setCurrentTime] = useState(new Date())
+  const [currentTime, setCurrentTime] = useState<Date | null>(null)
+  const [isMounted, setIsMounted] = useState(false)
+
+  console.log(profile)
 
 
   const toggleTheme = () => {
@@ -25,6 +28,8 @@ const InfoCard = ({ className, profile }: InfoCardProps) => {
   }
 
   useEffect(() => {
+    setIsMounted(true)
+    setCurrentTime(new Date())
     const timer = setInterval(() => {
       setCurrentTime(new Date())
     }, 1000)
@@ -44,7 +49,9 @@ const InfoCard = ({ className, profile }: InfoCardProps) => {
         <div className="flex gap-3">
           <Image
             className="rounded-full size-16"
-            src={profile.image.url}
+            src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${
+              typeof profile.image === 'object' && profile.image?.url ? profile.image.url : ''
+            }`}
             alt={`${profile.name}'s profile`}
             width={64}
             height={64}
@@ -85,7 +92,7 @@ const InfoCard = ({ className, profile }: InfoCardProps) => {
 
       <div className="flex justify-between w-full gap-5 items-end self-end">
         <div className="">
-          <p className="text-xs font-mono dark:text-black/70 text-zinc-400/70 bg-yellow-600 text-black dark:text-black">{profile.tagline}</p>
+          <p className="text-xs font-mono dark:text-black/70 text-zinc-400/70  text-black dark:text-black">{profile.tagline}</p>
         </div>
 
         <div className="right-8 flex flex-col gap-3">
@@ -99,30 +106,36 @@ const InfoCard = ({ className, profile }: InfoCardProps) => {
             <p className="text-[11px]">{profile.availability?.text}</p>
           </div>
           <div className="flex flex-row-reverse items-end gap-3">
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1">
-                <span className="text-sm font-medium">
-                  {currentTime.toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: true,
+            {isMounted && currentTime ? (
+              <>
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1">
+                    <span className="text-sm font-medium">
+                      {currentTime.toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true,
+                      })}
+                    </span>
+                    <span className="text-[10px] text-zinc-400">
+                      {currentTime.toLocaleTimeString('en-US', {
+                        second: '2-digit',
+                      })}
+                    </span>
+                  </div>
+                </div>
+                <div className="text-[10px] text-zinc-400">
+                  {currentTime.toLocaleDateString('en-US', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
                   })}
-                </span>
-                <span className="text-[10px] text-zinc-400">
-                  {currentTime.toLocaleTimeString('en-US', {
-                    second: '2-digit',
-                  })}
-                </span>
-              </div>
-            </div>
-            <div className="text-[10px] text-zinc-400">
-              {currentTime.toLocaleDateString('en-US', {
-                weekday: 'short',
-                month: 'short',
-                day: 'numeric',
-                year: 'numeric',
-              })}
-            </div>
+                </div>
+              </>
+            ) : (
+              <div className="h-8 w-32 animate-pulse rounded-md bg-zinc-200 dark:bg-zinc-700" />
+            )}
           </div>
         </div>
       </div>

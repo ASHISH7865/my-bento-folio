@@ -15,6 +15,9 @@ export interface Config {
     media: Media;
     profiles: Profile;
     'tech-stack': TechStack;
+    contacts: Contact;
+    blogs: Blog;
+    projects: Project;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -25,6 +28,9 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     profiles: ProfilesSelect<false> | ProfilesSelect<true>;
     'tech-stack': TechStackSelect<false> | TechStackSelect<true>;
+    contacts: ContactsSelect<false> | ContactsSelect<true>;
+    blogs: BlogsSelect<false> | BlogsSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -128,6 +134,28 @@ export interface Profile {
     status?: boolean | null;
     text?: string | null;
   };
+  socialLinks?: {
+    /**
+     * Your GitHub profile URL (e.g., https://github.com/username)
+     */
+    github?: string | null;
+    /**
+     * Your LinkedIn profile URL (e.g., https://linkedin.com/in/username)
+     */
+    linkedin?: string | null;
+    /**
+     * Your Twitter profile URL (e.g., https://twitter.com/username)
+     */
+    twitter?: string | null;
+    /**
+     * Your personal website URL
+     */
+    website?: string | null;
+    /**
+     * Email address for contact inquiries
+     */
+    email?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -144,6 +172,268 @@ export interface TechStack {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts".
+ */
+export interface Contact {
+  id: number;
+  /**
+   * Contact person's full name
+   */
+  name: string;
+  /**
+   * Contact person's email address
+   */
+  email: string;
+  /**
+   * Contact person's phone number (optional)
+   */
+  phone?: string | null;
+  /**
+   * The message content from the contact form
+   */
+  message: string;
+  /**
+   * Current status of this contact inquiry
+   */
+  status?: ('new' | 'in-progress' | 'replied' | 'closed') | null;
+  /**
+   * IP address of the contact person
+   */
+  ipAddress?: string | null;
+  /**
+   * Browser/device information
+   */
+  userAgent?: string | null;
+  /**
+   * Internal notes about this contact inquiry
+   */
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blogs".
+ */
+export interface Blog {
+  id: number;
+  /**
+   * The main title of the blog post
+   */
+  title: string;
+  /**
+   * URL-friendly version of the title (auto-generated)
+   */
+  slug: string;
+  /**
+   * Brief summary of the blog post (max 200 characters)
+   */
+  excerpt: string;
+  /**
+   * The main content of the blog post
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Main image for the blog post
+   */
+  featuredImage?: (number | null) | Media;
+  /**
+   * Category of the blog post
+   */
+  category: 'technology' | 'development' | 'design' | 'tutorial' | 'thoughts' | 'projects';
+  /**
+   * Tags for better categorization
+   */
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Publication status
+   */
+  status?: ('draft' | 'published' | 'archived') | null;
+  /**
+   * When the post was/will be published
+   */
+  publishedAt?: string | null;
+  /**
+   * Estimated reading time in minutes
+   */
+  readingTime?: number | null;
+  seo?: {
+    /**
+     * SEO title (if different from main title)
+     */
+    metaTitle?: string | null;
+    /**
+     * SEO description (max 160 characters)
+     */
+    metaDescription?: string | null;
+    /**
+     * SEO keywords (comma-separated)
+     */
+    keywords?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  /**
+   * Project title or name
+   */
+  title: string;
+  /**
+   * URL-friendly version of the title
+   */
+  slug: string;
+  /**
+   * Brief project description for cards and previews
+   */
+  description: string;
+  /**
+   * Detailed project description for the project page
+   */
+  detailedDescription?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  category: 'web-app' | 'mobile-app' | 'desktop-app' | 'api' | 'library' | 'website' | 'game' | 'other';
+  status: 'in-progress' | 'completed' | 'maintenance' | 'archived';
+  /**
+   * Show this project prominently in the showcase
+   */
+  featured?: boolean | null;
+  /**
+   * Main project thumbnail for grid cards
+   */
+  thumbnailImage: number | Media;
+  /**
+   * Gallery images for carousel and project detail page
+   */
+  images?:
+    | {
+        image: number | Media;
+        /**
+         * Optional caption for the image
+         */
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  technologies?:
+    | {
+        name: string;
+        /**
+         * Icon name or URL for the technology
+         */
+        icon?: string | null;
+        category?: ('frontend' | 'backend' | 'database' | 'devops' | 'mobile' | 'design' | 'other') | null;
+        id?: string | null;
+      }[]
+    | null;
+  links?: {
+    /**
+     * Link to the live project/demo
+     */
+    live?: string | null;
+    /**
+     * Link to the GitHub repository
+     */
+    github?: string | null;
+    /**
+     * Link to project documentation
+     */
+    documentation?: string | null;
+    /**
+     * Direct download link if applicable
+     */
+    download?: string | null;
+  };
+  features?:
+    | {
+        title: string;
+        description?: string | null;
+        /**
+         * Lucide icon name for the feature
+         */
+        icon?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  challenges?:
+    | {
+        challenge: string;
+        solution: string;
+        id?: string | null;
+      }[]
+    | null;
+  metrics?: {
+    /**
+     * e.g., "3 months", "2 weeks"
+     */
+    duration?: string | null;
+    teamSize?: number | null;
+    linesOfCode?: number | null;
+    /**
+     * e.g., "1000+ users", "Internal tool"
+     */
+    users?: string | null;
+  };
+  seo?: {
+    /**
+     * Override the title for SEO
+     */
+    metaTitle?: string | null;
+    /**
+     * Meta description for search engines
+     */
+    metaDescription?: string | null;
+    /**
+     * Comma-separated keywords
+     */
+    keywords?: string | null;
+  };
+  /**
+   * Project completion/publication date
+   */
+  publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -169,6 +459,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tech-stack';
         value: number | TechStack;
+      } | null)
+    | ({
+        relationTo: 'contacts';
+        value: number | Contact;
+      } | null)
+    | ({
+        relationTo: 'blogs';
+        value: number | Blog;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: number | Project;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -279,6 +581,15 @@ export interface ProfilesSelect<T extends boolean = true> {
         status?: T;
         text?: T;
       };
+  socialLinks?:
+    | T
+    | {
+        github?: T;
+        linkedin?: T;
+        twitter?: T;
+        website?: T;
+        email?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -294,6 +605,122 @@ export interface TechStackSelect<T extends boolean = true> {
         name?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts_select".
+ */
+export interface ContactsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  message?: T;
+  status?: T;
+  ipAddress?: T;
+  userAgent?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blogs_select".
+ */
+export interface BlogsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  excerpt?: T;
+  content?: T;
+  featuredImage?: T;
+  category?: T;
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  status?: T;
+  publishedAt?: T;
+  readingTime?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        keywords?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  description?: T;
+  detailedDescription?: T;
+  category?: T;
+  status?: T;
+  featured?: T;
+  thumbnailImage?: T;
+  images?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  technologies?:
+    | T
+    | {
+        name?: T;
+        icon?: T;
+        category?: T;
+        id?: T;
+      };
+  links?:
+    | T
+    | {
+        live?: T;
+        github?: T;
+        documentation?: T;
+        download?: T;
+      };
+  features?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        icon?: T;
+        id?: T;
+      };
+  challenges?:
+    | T
+    | {
+        challenge?: T;
+        solution?: T;
+        id?: T;
+      };
+  metrics?:
+    | T
+    | {
+        duration?: T;
+        teamSize?: T;
+        linesOfCode?: T;
+        users?: T;
+      };
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        keywords?: T;
+      };
+  publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }
