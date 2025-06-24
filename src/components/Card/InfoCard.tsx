@@ -20,9 +20,6 @@ const InfoCard = ({ className, profile }: InfoCardProps) => {
   const [currentTime, setCurrentTime] = useState<Date | null>(null)
   const [isMounted, setIsMounted] = useState(false)
 
-  console.log(profile)
-
-
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
   }

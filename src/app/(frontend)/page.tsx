@@ -53,7 +53,7 @@ export default async function HomePage() {
 
                 {/* Projects Card */}
                 <div className={`${cardClasses} md:col-start-7 md:col-end-9 md:row-start-1 md:row-end-3 z-10`}>
-                <ContactLinks profile={profileData.docs[0]} />
+                    <ContactLinks profile={profileData.docs[0]} />
 
                 </div>
 

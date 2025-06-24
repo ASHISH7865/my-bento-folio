@@ -19,12 +19,12 @@ const TechStack = ({ techStack }: TechStackProps) => {
 
     return (
         <div className='flex flex-col gap-4 p-4 group'>
-            <div className='flex flex-col gap-2'>
-                <Code className='w-12 h-12' />
-                <div className='flex flex-col gap-2'>
-                    <span className='text-5xl font-bold'>Tech</span>
-                    <span className='text-5xl font-bold'>Stack</span>
-                    <div className='h-1 bg-primary rounded-full w-0 group-hover:w-full transition-all duration-500 ease-in-out'></div>
+            <div className='flex md:flex-col items-center md:items-start gap-2'>
+                <Code className='w-8 h-8 md:w-16 md:h-16' />
+                <div className='flex md:flex-col gap-2'>
+                    <span className='text-2xl md:text-5xl font-bold'>Tech</span>
+                    <span className='text-2xl md:text-5xl font-bold'>Stack</span>
+                    <div className='md:block hidden h-1 bg-primary rounded-full w-0 group-hover:w-full transition-all duration-500 ease-in-out'></div>
                 </div>
             </div>
             <div className='h-[400px] overflow-y-auto pr-4 scrollbar-custom'>
