@@ -74,6 +74,9 @@ export interface Config {
     contacts: Contact;
     blogs: Blog;
     projects: Project;
+    about: About;
+    'contact-page': ContactPage;
+    resume: Resume;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -87,6 +90,9 @@ export interface Config {
     contacts: ContactsSelect<false> | ContactsSelect<true>;
     blogs: BlogsSelect<false> | BlogsSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    about: AboutSelect<false> | AboutSelect<true>;
+    'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
+    resume: ResumeSelect<false> | ResumeSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -147,6 +153,67 @@ export interface User {
 export interface Media {
   id: number;
   alt: string;
+  /**
+   * Cloudinary Media Information
+   */
+  cloudinary?: {
+    /**
+     * Cloudinary Public ID (used for transformations)
+     */
+    public_id?: string | null;
+    /**
+     * Type of the resource (image, video, raw)
+     */
+    resource_type?: string | null;
+    /**
+     * File format
+     */
+    format?: string | null;
+    /**
+     * Secure delivery URL
+     */
+    secure_url?: string | null;
+    /**
+     * File size in bytes
+     */
+    bytes?: number | null;
+    /**
+     * Creation timestamp
+     */
+    created_at?: string | null;
+    /**
+     * Current version number
+     */
+    version?: string | null;
+    /**
+     * Unique version identifier
+     */
+    version_id?: string | null;
+    /**
+     * Width in pixels
+     */
+    width?: number | null;
+    /**
+     * Height in pixels
+     */
+    height?: number | null;
+    /**
+     * Duration in seconds (for videos)
+     */
+    duration?: number | null;
+    /**
+     * Number of pages (for PDFs)
+     */
+    pages?: number | null;
+    /**
+     * Which page of the PDF to use for thumbnails (changes will apply after saving)
+     */
+    selected_page?: number | null;
+    /**
+     * URL for the thumbnail image (automatically generated for PDFs)
+     */
+    thumbnail_url?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -494,6 +561,764 @@ export interface Project {
   createdAt: string;
 }
 /**
+ * Manage content for the About Us page
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about".
+ */
+export interface About {
+  id: number;
+  /**
+   * Main title for the About page
+   */
+  title: string;
+  /**
+   * Optional subtitle or tagline
+   */
+  subtitle?: string | null;
+  /**
+   * Main hero image for the About page
+   */
+  heroImage?: (number | null) | Media;
+  /**
+   * Main introduction/bio content
+   */
+  introduction: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Additional content sections
+   */
+  sections?:
+    | {
+        /**
+         * Title for this section
+         */
+        sectionTitle: string;
+        /**
+         * Content for this section
+         */
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        /**
+         * Optional image for this section
+         */
+        image?: (number | null) | Media;
+        /**
+         * Layout style for this section
+         */
+        layout?: ('standard' | 'image-left' | 'image-right' | 'full-width') | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Skills and expertise information
+   */
+  skills?: {
+    /**
+     * Title for the skills section
+     */
+    title?: string | null;
+    categories?:
+      | {
+          /**
+           * Name of the skill category (e.g., Frontend, Backend)
+           */
+          categoryName: string;
+          skills?:
+            | {
+                name: string;
+                proficiency?: ('beginner' | 'intermediate' | 'advanced' | 'expert') | null;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Work experience and timeline
+   */
+  experience?: {
+    /**
+     * Title for the experience section
+     */
+    title?: string | null;
+    timeline?:
+      | {
+          /**
+           * Job title or position
+           */
+          position: string;
+          /**
+           * Company or organization name
+           */
+          company: string;
+          /**
+           * Start date of this position
+           */
+          startDate: string;
+          /**
+           * End date (leave empty if current position)
+           */
+          endDate?: string | null;
+          /**
+           * Check if this is your current position
+           */
+          current?: boolean | null;
+          /**
+           * Description of responsibilities and achievements
+           */
+          description?: {
+            root: {
+              type: string;
+              children: {
+                type: string;
+                version: number;
+                [k: string]: unknown;
+              }[];
+              direction: ('ltr' | 'rtl') | null;
+              format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+              indent: number;
+              version: number;
+            };
+            [k: string]: unknown;
+          } | null;
+          /**
+           * Technologies used in this role
+           */
+          technologies?:
+            | {
+                tech?: string | null;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Notable achievements, awards, or certifications
+   */
+  achievements?:
+    | {
+        /**
+         * Achievement title
+         */
+        title: string;
+        /**
+         * Brief description of the achievement
+         */
+        description?: string | null;
+        /**
+         * Date when you received this achievement
+         */
+        date?: string | null;
+        /**
+         * Organization that granted this achievement
+         */
+        organization?: string | null;
+        /**
+         * URL to credential or certificate (optional)
+         */
+        credentialUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Publication status
+   */
+  status?: ('draft' | 'published') | null;
+  seo?: {
+    /**
+     * SEO title for the About page
+     */
+    metaTitle?: string | null;
+    /**
+     * SEO description (max 160 characters)
+     */
+    metaDescription?: string | null;
+    /**
+     * SEO keywords (comma-separated)
+     */
+    keywords?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage content for the Contact Us page
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page".
+ */
+export interface ContactPage {
+  id: number;
+  /**
+   * Main title for the Contact page
+   */
+  title: string;
+  /**
+   * Subtitle or tagline for the contact page
+   */
+  subtitle?: string | null;
+  /**
+   * Introduction text for the contact page
+   */
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Contact information display settings
+   */
+  contactInfo?: {
+    /**
+     * Display email address on contact page
+     */
+    showEmail?: boolean | null;
+    /**
+     * Primary contact email
+     */
+    email?: string | null;
+    /**
+     * Display phone number on contact page
+     */
+    showPhone?: boolean | null;
+    /**
+     * Contact phone number
+     */
+    phone?: string | null;
+    /**
+     * Display location information
+     */
+    showLocation?: boolean | null;
+    location?: {
+      /**
+       * City name
+       */
+      city?: string | null;
+      /**
+       * Country name
+       */
+      country?: string | null;
+      /**
+       * Timezone (e.g., GMT+5:30)
+       */
+      timezone?: string | null;
+    };
+  };
+  /**
+   * Social media and professional links
+   */
+  socialLinks?: {
+    /**
+     * Display social media links
+     */
+    showSocialLinks?: boolean | null;
+    links?:
+      | {
+          /**
+           * Social media platform
+           */
+          platform:
+            | 'github'
+            | 'linkedin'
+            | 'twitter'
+            | 'instagram'
+            | 'facebook'
+            | 'youtube'
+            | 'discord'
+            | 'telegram'
+            | 'website'
+            | 'other';
+          /**
+           * Full URL to your profile/page
+           */
+          url: string;
+          /**
+           * Username or handle (optional)
+           */
+          username?: string | null;
+          /**
+           * Custom label (only needed for "Other" platform)
+           */
+          customLabel?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Contact form configuration
+   */
+  contactForm?: {
+    /**
+     * Enable contact form on the page
+     */
+    enabled?: boolean | null;
+    /**
+     * Contact form section title
+     */
+    title?: string | null;
+    /**
+     * Description text above the contact form
+     */
+    description?: string | null;
+    /**
+     * Message shown after successful form submission
+     */
+    successMessage?: string | null;
+    /**
+     * Fields that are required in the contact form
+     */
+    requiredFields?:
+      | {
+          field?: ('name' | 'email' | 'phone' | 'message') | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Additional content sections for the contact page
+   */
+  additionalSections?:
+    | {
+        /**
+         * Section title
+         */
+        title: string;
+        /**
+         * Section content
+         */
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: string;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        /**
+         * Icon to display with this section
+         */
+        icon?: ('email' | 'phone' | 'location' | 'time' | 'calendar' | 'chat' | 'none') | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Availability and response time information
+   */
+  availability?: {
+    /**
+     * Show availability status on contact page
+     */
+    showAvailability?: boolean | null;
+    /**
+     * Current availability status
+     */
+    status?: ('available' | 'busy' | 'unavailable') | null;
+    /**
+     * Expected response time
+     */
+    responseTime?: string | null;
+    /**
+     * Additional note about availability
+     */
+    note?: string | null;
+  };
+  /**
+   * Publication status
+   */
+  status?: ('draft' | 'published') | null;
+  seo?: {
+    /**
+     * SEO title for the Contact page
+     */
+    metaTitle?: string | null;
+    /**
+     * SEO description (max 160 characters)
+     */
+    metaDescription?: string | null;
+    /**
+     * SEO keywords (comma-separated)
+     */
+    keywords?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Manage resume/CV content and downloadable files
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resume".
+ */
+export interface Resume {
+  id: number;
+  /**
+   * Title for the resume page
+   */
+  title: string;
+  /**
+   * Resume version for tracking updates
+   */
+  version?: string | null;
+  /**
+   * When the resume was last updated
+   */
+  lastUpdated?: string | null;
+  /**
+   * Personal information section
+   */
+  personalInfo: {
+    /**
+     * Full name as it appears on resume
+     */
+    fullName: string;
+    /**
+     * Professional title (e.g., Full Stack Developer)
+     */
+    title: string;
+    /**
+     * Professional summary or objective
+     */
+    summary: string;
+    contact: {
+      email: string;
+      phone?: string | null;
+      /**
+       * City, Country or full address
+       */
+      location?: string | null;
+      /**
+       * Personal website URL
+       */
+      website?: string | null;
+      /**
+       * LinkedIn profile URL
+       */
+      linkedin?: string | null;
+      /**
+       * GitHub profile URL
+       */
+      github?: string | null;
+    };
+  };
+  /**
+   * Professional work experience
+   */
+  experience: {
+    /**
+     * Job title/position
+     */
+    position: string;
+    /**
+     * Company/organization name
+     */
+    company: string;
+    /**
+     * Work location (city, country)
+     */
+    location?: string | null;
+    /**
+     * Employment start date
+     */
+    startDate: string;
+    /**
+     * Employment end date (leave empty if current)
+     */
+    endDate?: string | null;
+    /**
+     * Currently working in this position
+     */
+    current?: boolean | null;
+    /**
+     * List of responsibilities and achievements
+     */
+    description: {
+      responsibility: string;
+      id?: string | null;
+    }[];
+    /**
+     * Technologies and tools used
+     */
+    technologies?:
+      | {
+          tech?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+    id?: string | null;
+  }[];
+  /**
+   * Educational background
+   */
+  education?:
+    | {
+        /**
+         * Degree type and field of study
+         */
+        degree: string;
+        /**
+         * School/university name
+         */
+        institution: string;
+        /**
+         * Institution location
+         */
+        location?: string | null;
+        /**
+         * Education start date
+         */
+        startDate?: string | null;
+        /**
+         * Graduation date
+         */
+        endDate?: string | null;
+        /**
+         * GPA or grade (optional)
+         */
+        gpa?: string | null;
+        /**
+         * Academic honors, awards, or achievements
+         */
+        honors?:
+          | {
+              honor?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Relevant courses or projects
+         */
+        relevantCoursework?:
+          | {
+              course?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Technical and professional skills
+   */
+  skills?: {
+    /**
+     * Technical skills by category
+     */
+    technical?:
+      | {
+          /**
+           * Skill category (e.g., Frontend, Backend, Tools)
+           */
+          category: string;
+          skills: {
+            skill: string;
+            proficiency?: ('beginner' | 'intermediate' | 'advanced' | 'expert') | null;
+            id?: string | null;
+          }[];
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Soft skills and personal qualities
+     */
+    soft?:
+      | {
+          skill: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Spoken languages
+     */
+    languages?:
+      | {
+          language: string;
+          proficiency?: ('native' | 'fluent' | 'proficient' | 'intermediate' | 'basic') | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Notable projects (if not showing from projects collection)
+   */
+  projects?:
+    | {
+        /**
+         * Project name
+         */
+        name: string;
+        /**
+         * Brief project description
+         */
+        description: string;
+        technologies?:
+          | {
+              tech?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Live project URL
+         */
+        liveUrl?: string | null;
+        /**
+         * GitHub repository URL
+         */
+        githubUrl?: string | null;
+        /**
+         * Project completion date
+         */
+        completionDate?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Professional certifications and licenses
+   */
+  certifications?:
+    | {
+        /**
+         * Certification name
+         */
+        name: string;
+        /**
+         * Issuing organization
+         */
+        issuer: string;
+        /**
+         * Date certificate was issued
+         */
+        issueDate?: string | null;
+        /**
+         * Expiry date (if applicable)
+         */
+        expiryDate?: string | null;
+        /**
+         * Credential ID or license number
+         */
+        credentialId?: string | null;
+        /**
+         * URL to verify the certification
+         */
+        verificationUrl?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Downloadable resume files
+   */
+  downloadableFiles?: {
+    /**
+     * PDF version of the resume
+     */
+    pdfResume?: string | null;
+    /**
+     * Word document version of the resume
+     */
+    docResume?: string | null;
+    /**
+     * Additional resume formats
+     */
+    customFormats?:
+      | {
+          /**
+           * Format label (e.g., "Creative Resume", "Technical Resume")
+           */
+          label: string;
+          file: number | Media;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Resume page display settings
+   */
+  displaySettings?: {
+    /**
+     * Show download buttons on the resume page
+     */
+    showDownloadButtons?: boolean | null;
+    /**
+     * Display last updated date
+     */
+    showLastUpdated?: boolean | null;
+    /**
+     * Enable print functionality
+     */
+    enablePrint?: boolean | null;
+    /**
+     * Resume page layout style
+     */
+    layout?: ('modern' | 'classic' | 'minimal' | 'creative') | null;
+  };
+  /**
+   * Publication status
+   */
+  status?: ('draft' | 'published') | null;
+  seo?: {
+    /**
+     * SEO title for the Resume page
+     */
+    metaTitle?: string | null;
+    /**
+     * SEO description (max 160 characters)
+     */
+    metaDescription?: string | null;
+    /**
+     * SEO keywords (comma-separated)
+     */
+    keywords?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
@@ -527,6 +1352,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'about';
+        value: number | About;
+      } | null)
+    | ({
+        relationTo: 'contact-page';
+        value: number | ContactPage;
+      } | null)
+    | ({
+        relationTo: 'resume';
+        value: number | Resume;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -591,6 +1428,24 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  cloudinary?:
+    | T
+    | {
+        public_id?: T;
+        resource_type?: T;
+        format?: T;
+        secure_url?: T;
+        bytes?: T;
+        created_at?: T;
+        version?: T;
+        version_id?: T;
+        width?: T;
+        height?: T;
+        duration?: T;
+        pages?: T;
+        selected_page?: T;
+        thumbnail_url?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -777,6 +1632,324 @@ export interface ProjectsSelect<T extends boolean = true> {
         keywords?: T;
       };
   publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "about_select".
+ */
+export interface AboutSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  heroImage?: T;
+  introduction?: T;
+  sections?:
+    | T
+    | {
+        sectionTitle?: T;
+        content?: T;
+        image?: T;
+        layout?: T;
+        id?: T;
+      };
+  skills?:
+    | T
+    | {
+        title?: T;
+        categories?:
+          | T
+          | {
+              categoryName?: T;
+              skills?:
+                | T
+                | {
+                    name?: T;
+                    proficiency?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+      };
+  experience?:
+    | T
+    | {
+        title?: T;
+        timeline?:
+          | T
+          | {
+              position?: T;
+              company?: T;
+              startDate?: T;
+              endDate?: T;
+              current?: T;
+              description?: T;
+              technologies?:
+                | T
+                | {
+                    tech?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+      };
+  achievements?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        date?: T;
+        organization?: T;
+        credentialUrl?: T;
+        id?: T;
+      };
+  status?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        keywords?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-page_select".
+ */
+export interface ContactPageSelect<T extends boolean = true> {
+  title?: T;
+  subtitle?: T;
+  description?: T;
+  contactInfo?:
+    | T
+    | {
+        showEmail?: T;
+        email?: T;
+        showPhone?: T;
+        phone?: T;
+        showLocation?: T;
+        location?:
+          | T
+          | {
+              city?: T;
+              country?: T;
+              timezone?: T;
+            };
+      };
+  socialLinks?:
+    | T
+    | {
+        showSocialLinks?: T;
+        links?:
+          | T
+          | {
+              platform?: T;
+              url?: T;
+              username?: T;
+              customLabel?: T;
+              id?: T;
+            };
+      };
+  contactForm?:
+    | T
+    | {
+        enabled?: T;
+        title?: T;
+        description?: T;
+        successMessage?: T;
+        requiredFields?:
+          | T
+          | {
+              field?: T;
+              id?: T;
+            };
+      };
+  additionalSections?:
+    | T
+    | {
+        title?: T;
+        content?: T;
+        icon?: T;
+        id?: T;
+      };
+  availability?:
+    | T
+    | {
+        showAvailability?: T;
+        status?: T;
+        responseTime?: T;
+        note?: T;
+      };
+  status?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        keywords?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "resume_select".
+ */
+export interface ResumeSelect<T extends boolean = true> {
+  title?: T;
+  version?: T;
+  lastUpdated?: T;
+  personalInfo?:
+    | T
+    | {
+        fullName?: T;
+        title?: T;
+        summary?: T;
+        contact?:
+          | T
+          | {
+              email?: T;
+              phone?: T;
+              location?: T;
+              website?: T;
+              linkedin?: T;
+              github?: T;
+            };
+      };
+  experience?:
+    | T
+    | {
+        position?: T;
+        company?: T;
+        location?: T;
+        startDate?: T;
+        endDate?: T;
+        current?: T;
+        description?:
+          | T
+          | {
+              responsibility?: T;
+              id?: T;
+            };
+        technologies?:
+          | T
+          | {
+              tech?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  education?:
+    | T
+    | {
+        degree?: T;
+        institution?: T;
+        location?: T;
+        startDate?: T;
+        endDate?: T;
+        gpa?: T;
+        honors?:
+          | T
+          | {
+              honor?: T;
+              id?: T;
+            };
+        relevantCoursework?:
+          | T
+          | {
+              course?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  skills?:
+    | T
+    | {
+        technical?:
+          | T
+          | {
+              category?: T;
+              skills?:
+                | T
+                | {
+                    skill?: T;
+                    proficiency?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
+        soft?:
+          | T
+          | {
+              skill?: T;
+              id?: T;
+            };
+        languages?:
+          | T
+          | {
+              language?: T;
+              proficiency?: T;
+              id?: T;
+            };
+      };
+  projects?:
+    | T
+    | {
+        name?: T;
+        description?: T;
+        technologies?:
+          | T
+          | {
+              tech?: T;
+              id?: T;
+            };
+        liveUrl?: T;
+        githubUrl?: T;
+        completionDate?: T;
+        id?: T;
+      };
+  certifications?:
+    | T
+    | {
+        name?: T;
+        issuer?: T;
+        issueDate?: T;
+        expiryDate?: T;
+        credentialId?: T;
+        verificationUrl?: T;
+        id?: T;
+      };
+  downloadableFiles?:
+    | T
+    | {
+        pdfResume?: T;
+        docResume?: T;
+        customFormats?:
+          | T
+          | {
+              label?: T;
+              file?: T;
+              id?: T;
+            };
+      };
+  displaySettings?:
+    | T
+    | {
+        showDownloadButtons?: T;
+        showLastUpdated?: T;
+        enablePrint?: T;
+        layout?: T;
+      };
+  status?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        keywords?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

@@ -10,8 +10,8 @@ const spaceGrotesk = Space_Grotesk({
 })
 
 export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
+  description: 'Ashish is a software engineer with a passion for building web applications and mobile apps.',
+  title: 'Ashish',
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {
@@ -20,7 +20,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className={spaceGrotesk.className}>
       <body>
-        <main className="min-h-screen flex items-center justify-center relative mx-auto max-w-5xl bg-dark-1la dark:bg-white">
+        <main className="min-h-screen flex items-center justify-center relative mx-auto max-w-7xl bg-dark-1la dark:bg-white">
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

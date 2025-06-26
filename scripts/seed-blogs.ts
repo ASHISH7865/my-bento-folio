@@ -1,5 +1,8 @@
 import { getPayload } from 'payload'
-import payloadConfig from '../src/payload.config'
+import config from '@payload-config'
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const sampleBlogs = [
   {
@@ -121,9 +124,9 @@ const sampleBlogs = [
 
 async function seedBlogs() {
   try {
-    console.log('🌱 Starting blog seeding...')
+    console.log('🌱 Starting blog seeding...' )
 
-    const payload = await getPayload({ config: payloadConfig })
+    const payload = await getPayload({ config })
 
     for (let i = 0; i < sampleBlogs.length; i++) {
       const blog = sampleBlogs[i]

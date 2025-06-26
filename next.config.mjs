@@ -7,6 +7,9 @@ const nextConfig = {
             {
                 hostname: 'localhost',
             },
+            {
+                hostname: 'res.cloudinary.com',
+            },
         ],
     },
   // Your Next.js config here

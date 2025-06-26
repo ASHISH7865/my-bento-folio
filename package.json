@@ -12,7 +12,10 @@
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "lint": "cross-env NODE_OPTIONS=--no-deprecation next lint",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
-    "seed:blogs": "cross-env NODE_OPTIONS=--no-deprecation NODE_ENV=development PAYLOAD_SECRET=86b8e607efc79ea8c28b193f tsx scripts/seed-blogs.ts",
+    "seed:blogs": "payload run scripts/seed-blogs.ts",
+    "seed:resume": "payload run scripts/seed-resume.ts",
+    "seed:about": "payload run scripts/seed-about.ts",
+    "seed:contact": "payload run scripts/seed-contact.ts",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
   "dependencies": {
@@ -55,6 +58,7 @@
     "cmdk": "^1.0.0",
     "cross-env": "^7.0.3",
     "date-fns": "^4.1.0",
+    "dotenv": "^16.5.0",
     "embla-carousel-react": "^8.5.2",
     "framer-motion": "^12.4.2",
     "graphql": "^16.8.1",
@@ -64,6 +68,7 @@
     "next": "15.1.5",
     "next-themes": "^0.4.4",
     "payload": "latest",
+    "payload-cloudinary": "^2.0.0-alpha.3",
     "react": "19.0.0",
     "react-day-picker": "^8.10.1",
     "react-dom": "19.0.0",

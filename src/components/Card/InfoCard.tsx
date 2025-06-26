@@ -7,7 +7,7 @@ import { MapPin, Moon, Sun } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useTheme } from 'next-themes'
 import { MorphingText } from '@/components/ui/morphing-text'
-import { Profile } from '@/payload-types'
+import { Media, Profile } from '@/payload-types'
 
 
 interface InfoCardProps {
@@ -45,10 +45,8 @@ const InfoCard = ({ className, profile }: InfoCardProps) => {
       <div className="w-full flex justify-between items-start">
         <div className="flex gap-3">
           <Image
-            className="rounded-full size-16"
-            src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${
-              typeof profile.image === 'object' && profile.image?.url ? profile.image.url : ''
-            }`}
+            className="rounded-full size-16 object-cover"
+            src={(profile.image as Media)?.cloudinary?.secure_url as string}
             alt={`${profile.name}'s profile`}
             width={64}
             height={64}
