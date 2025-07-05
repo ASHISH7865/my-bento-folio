@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge'
 import { CheckCircle, AlertTriangle, Info, AlertCircle, Lightbulb, ExternalLink, Play, Copy, Eye } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { vscDarkPlus, oneLight} from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { useTheme } from 'next-themes'
 
 interface LexicalTextNode {
@@ -99,13 +99,13 @@ const CodeBlock = ({ code, language, title, showLineNumbers = true }: {
       <div className="relative">
         <SyntaxHighlighter
           language={language || 'text'}
-          style={theme !== 'dark' ? vscDarkPlus : oneLight}
+          style={oneDark }
           showLineNumbers={showLineNumbers}
           fontFamily="JetBrains Mono"
           customStyle={{
             margin: 0,
             padding: '1.5rem',
-            background: 'transparent',
+            // background: 'transparent',
             fontSize: '0.9rem',
             lineHeight: '1.5',
           }}
