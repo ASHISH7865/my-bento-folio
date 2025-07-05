@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { ExternalLink, Github, Calendar, Star, Eye } from 'lucide-react'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
+import { Media } from '@/payload-types'
 
 interface ProjectCardProps {
   project: {
@@ -16,6 +18,7 @@ interface ProjectCardProps {
     category: string
     status: string
     featured: boolean
+    slug: string
     thumbnailImage: {
       url: string
       alt?: string
@@ -31,7 +34,7 @@ interface ProjectCardProps {
     }
     publishedAt: string
   }
-  onCardClick: () => void
+  onCardClick?: () => void
   className?: string
 }
 
@@ -40,6 +43,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   onCardClick,
   className = ''
 }) => {
+
+
   const getCategoryColor = (category: string) => {
     const colors: Record<string, string> = {
       'web-app': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
@@ -101,8 +106,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           {/* Project Image */}
           <div className="relative h-48 overflow-hidden">
             <Image
-              src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${project.thumbnailImage.url}`}
-              alt={project.thumbnailImage.alt || project.title}
+              src={(project.thumbnailImage as Media)?.cloudinary?.secure_url as string}
+              alt={project.title}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-110"
             />
@@ -110,15 +115,13 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 
             {/* Hover Overlay */}
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-              <Button
-                onClick={onCardClick}
-                variant="secondary"
-                size="sm"
-                className="bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white"
+              <Link
+                href={`/projects/${project.slug}`}
+                className="bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white p-2 rounded-md flex items-center gap-2"
               >
                 <Eye className="w-4 h-4 mr-2" />
                 View Details
-              </Button>
+              </Link>
             </div>
           </div>
 
@@ -169,7 +172,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
               <Button
                 onClick={(e) => {
                   e.stopPropagation()
-                  onCardClick()
+                  onCardClick?.()
                 }}
                 variant="outline"
                 size="sm"

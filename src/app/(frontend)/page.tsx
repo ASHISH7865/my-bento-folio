@@ -38,12 +38,12 @@ export default async function HomePage() {
         }).catch(() => ({ docs: [] })) // Fallback if collection doesn't exist
     ]);
 
-    const cardClasses = "relative flex w-full h-full rounded-xl border dark:border-dark-5 border-dark-3 transform-gpu bg-dark-1 [box-shadow:0_0px_60px_-20px_#ffffff1f_inset] cursor-grab dark:bg-white ";
+    const cardClasses = "relative flex w-full p-0.5 h-full rounded-xl border dark:border-dark-5 border-dark-3 transform-gpu bg-dark-1 [box-shadow:0_0px_60px_-20px_#ffffff1f_inset] cursor-grab dark:bg-white ";
 
     return (
         <div className="flex items-center justify-center max-md:flex-col md:flex-row bg-transparent">
             <BentoGrid className="grid gap-3 grid-cols-1 md:grid-cols-8 md:grid-rows-5 p-5 max-md:p-4 md:h-[770px] relative w-full max-w-7xl max-md:gap-3 max-md:min-h-screen">
-                <div className={`${cardClasses} h-full md:col-start-3 md:col-end-7 md:row-start-1 md:row-end-3 z-10`}>
+                <div className={`${cardClasses} h-full md:col-start-3 md:col-end-9 md:row-start-1 md:row-end-3 z-10`}>
                     <InfoCard profile={profileData.docs[0]} />
                 </div>
 
@@ -52,9 +52,8 @@ export default async function HomePage() {
                 </div>
 
                 {/* Projects Card */}
-                <div className={`${cardClasses} md:col-start-7 md:col-end-9 md:row-start-1 md:row-end-3 z-10`}>
+                <div className={`${cardClasses} md:col-start-1 md:col-end-9 md:row-start-5 md:row-end-5 z-10`}>
                     <ContactLinks profile={profileData.docs[0]} />
-
                 </div>
 
                 {/* Contact Links Card */}

@@ -26,6 +26,7 @@ import {
   Zap,
   Award
 } from 'lucide-react'
+import { Media } from '@/payload-types'
 
 interface ProjectDetailPageProps {
   params: Promise<{
@@ -103,25 +104,25 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
             <div className="flex items-center gap-2">
               {project.links?.live && (
-                <Button
-                  onClick={() => window.open(project.links!.live!, '_blank')}
-                  variant="outline"
-                  size="sm"
+                <Link
+                  href={project.links!.live!}
+                  target="_blank"
+                  className="bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white p-2 rounded-md flex items-center gap-2"
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
                   Live Demo
-                </Button>
+                </Link>
               )}
 
               {project.links?.github && (
-                <Button
-                  onClick={() => window.open(project.links!.github!, '_blank')}
-                  variant="outline"
-                  size="sm"
+                <Link
+                  href={project.links!.github!}
+                  target="_blank"
+                  className="bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white p-2 rounded-md flex items-center gap-2"
                 >
                   <Github className="w-4 h-4 mr-2" />
                   Source
-                </Button>
+                </Link>
               )}
             </div>
           </div>
@@ -130,7 +131,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
 
       {/* Hero Section */}
       <section className="relative overflow-hidden py-20">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5" />
+        <div className="absolute inset-0 " />
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Project Info */}
@@ -209,47 +210,47 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               {/* Action Buttons */}
               <div className="flex flex-wrap gap-4">
                 {project.links?.live && (
-                  <Button
-                    onClick={() => window.open(project.links!.live!, '_blank')}
-                    size="lg"
-                    className="bg-primary hover:bg-primary/90"
+                  <Link
+                    href={project.links!.live!}
+                    target="_blank"
+                    className="bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white p-2 rounded-md flex items-center gap-2"
                   >
                     <Eye className="w-5 h-5 mr-2" />
                     View Live Project
-                  </Button>
+                  </Link>
                 )}
 
                 {project.links?.github && (
-                  <Button
-                    onClick={() => window.open(project.links!.github!, '_blank')}
-                    variant="outline"
-                    size="lg"
+                  <Link
+                    href={project.links!.github!}
+                    target="_blank"
+                    className="bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white p-2 rounded-md flex items-center gap-2"
                   >
                     <Github className="w-5 h-5 mr-2" />
                     View Source Code
-                  </Button>
+                  </Link>
                 )}
 
                 {project.links?.documentation && (
-                  <Button
-                    onClick={() => window.open(project.links!.documentation!, '_blank')}
-                    variant="outline"
-                    size="lg"
+                  <Link
+                    href={project.links!.documentation!}
+                    target="_blank"
+                    className="bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white p-2 rounded-md flex items-center gap-2"
                   >
                     <FileText className="w-5 h-5 mr-2" />
                     Documentation
-                  </Button>
+                  </Link>
                 )}
 
                 {project.links?.download && (
-                  <Button
-                    onClick={() => window.open(project.links!.download!, '_blank')}
-                    variant="outline"
-                    size="lg"
+                  <Link
+                    href={project.links!.download!}
+                    target="_blank"
+                    className="bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/30 text-white p-2 rounded-md flex items-center gap-2"
                   >
                     <Download className="w-5 h-5 mr-2" />
                     Download
-                  </Button>
+                  </Link>
                 )}
               </div>
             </div>
@@ -259,8 +260,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               <div className="relative aspect-video rounded-2xl overflow-hidden bg-muted/20 shadow-2xl">
                 {project.thumbnailImage && typeof project.thumbnailImage === 'object' && 'url' in project.thumbnailImage && (
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${project.thumbnailImage.url}`}
-                    alt={project.thumbnailImage.alt || project.title}
+                    src={(project.thumbnailImage as Media)?.cloudinary?.secure_url as string}
+                    alt={project.title}
                     fill
                     className="object-cover"
                     priority
@@ -290,8 +291,8 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   <div className="relative aspect-video">
                     {img.image && typeof img.image === 'object' && 'url' in img.image && (
                       <Image
-                        src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${img.image.url}`}
-                        alt={img.image.alt || img.caption || `${project.title} screenshot ${index + 1}`}
+                        src={(img.image as Media)?.cloudinary?.secure_url as string}
+                        alt={img.caption || `${project.title} screenshot ${index + 1}`}
                         fill
                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
@@ -488,47 +489,47 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
               <CardContent>
                 <div className="space-y-3">
                   {project.links?.live && (
-                    <Button
-                      onClick={() => window.open(project.links!.live!, '_blank')}
-                      variant="outline"
+                    <Link
+                      href={project.links!.live!}
+                      target="_blank"
                       className="w-full justify-start"
                     >
                       <ExternalLink className="w-4 h-4 mr-2" />
                       Live Demo
-                    </Button>
+                    </Link>
                   )}
 
                   {project.links?.github && (
-                    <Button
-                      onClick={() => window.open(project.links!.github!, '_blank')}
-                      variant="outline"
+                    <Link
+                      href={project.links!.github!}
+                      target="_blank"
                       className="w-full justify-start"
                     >
                       <Github className="w-4 h-4 mr-2" />
                       Source Code
-                    </Button>
+                    </Link>
                   )}
 
                   {project.links?.documentation && (
-                    <Button
-                      onClick={() => window.open(project.links!.documentation!, '_blank')}
-                      variant="outline"
+                    <Link
+                      href={project.links!.documentation!}
+                      target="_blank"
                       className="w-full justify-start"
                     >
                       <FileText className="w-4 h-4 mr-2" />
                       Documentation
-                    </Button>
+                    </Link>
                   )}
 
                   {project.links?.download && (
-                    <Button
-                      onClick={() => window.open(project.links!.download!, '_blank')}
-                      variant="outline"
+                    <Link
+                      href={project.links!.download!}
+                      target="_blank"
                       className="w-full justify-start"
                     >
                       <Download className="w-4 h-4 mr-2" />
                       Download
-                    </Button>
+                    </Link>
                   )}
                 </div>
               </CardContent>

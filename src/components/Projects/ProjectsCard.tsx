@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, Folder, Star, Calendar, Code } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { Media } from '@/payload-types'
 
 interface Project {
   id: string
@@ -51,7 +52,7 @@ const ProjectsCard: React.FC<ProjectsCardProps> = ({ projects }) => {
   }
 
   return (
-    <div className="h-full flex flex-col p-6 w-full overflow-y-auto scrollbar-custom">
+    <div className="h-full flex flex-col p-6 w-full overflow-y-auto scrollbar-custom border rounded-xl">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
@@ -103,8 +104,8 @@ const ProjectsCard: React.FC<ProjectsCardProps> = ({ projects }) => {
                     {/* Project Thumbnail */}
                     <div className="relative w-12 h-12 rounded-md overflow-hidden flex-shrink-0">
                       <Image
-                        src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${project.thumbnailImage.url}`}
-                        alt={project.thumbnailImage.alt || project.title}
+                        src={(project.thumbnailImage as Media)?.cloudinary?.secure_url as string}
+                        alt={project.title}
                         fill
                         className="object-cover"
                       />

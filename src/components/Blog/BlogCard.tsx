@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { Badge } from '@/components/ui/badge'
 import { Clock, Calendar, ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { Blog } from '@/payload-types'
+import { Blog, Media } from '@/payload-types'
 
 interface BlogCardProps {
   blog: Blog
@@ -45,7 +45,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ blog, className }) => {
         {blog.featuredImage && typeof blog.featuredImage === 'object' && 'url' in blog.featuredImage && blog.featuredImage.url && (
           <div className="relative h-32 overflow-hidden">
             <Image
-              src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${blog.featuredImage.url}`}
+              src={(blog.featuredImage as Media)?.cloudinary?.secure_url as string}
               alt={blog.title}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"

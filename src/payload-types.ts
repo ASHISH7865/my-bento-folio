@@ -354,7 +354,7 @@ export interface Blog {
    */
   slug: string;
   /**
-   * Brief summary of the blog post (max 200 characters)
+   * Brief summary of the blog post (max 300 characters)
    */
   excerpt: string;
   /**
@@ -382,7 +382,164 @@ export interface Blog {
   /**
    * Category of the blog post
    */
-  category: 'technology' | 'development' | 'design' | 'tutorial' | 'thoughts' | 'projects';
+  category:
+    | 'technology'
+    | 'development'
+    | 'design'
+    | 'tutorial'
+    | 'thoughts'
+    | 'projects'
+    | 'code-review'
+    | 'best-practices'
+    | 'devops'
+    | 'ai-ml'
+    | 'web-development'
+    | 'mobile-development'
+    | 'data-science'
+    | 'career';
+  /**
+   * Optional subcategory for more specific classification
+   */
+  subcategory?: string | null;
+  /**
+   * Difficulty level of the content
+   */
+  difficulty?: ('beginner' | 'intermediate' | 'advanced' | 'expert') | null;
+  /**
+   * Primary programming language if applicable
+   */
+  primaryLanguage?:
+    | (
+        | 'javascript'
+        | 'typescript'
+        | 'python'
+        | 'java'
+        | 'cpp'
+        | 'csharp'
+        | 'go'
+        | 'rust'
+        | 'php'
+        | 'ruby'
+        | 'swift'
+        | 'kotlin'
+        | 'dart'
+        | 'html'
+        | 'css'
+        | 'sql'
+        | 'bash'
+        | 'powershell'
+        | 'docker'
+        | 'yaml'
+        | 'json'
+        | 'markdown'
+        | 'other'
+      )
+    | null;
+  /**
+   * Technologies, frameworks, or tools discussed
+   */
+  technologies?:
+    | {
+        technology?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  series?: {
+    /**
+     * Is this post part of a series?
+     */
+    isPartOfSeries?: boolean | null;
+    /**
+     * Name of the series
+     */
+    seriesName?: string | null;
+    /**
+     * Order in the series (1, 2, 3, etc.)
+     */
+    seriesOrder?: number | null;
+    /**
+     * Brief description of the series
+     */
+    seriesDescription?: string | null;
+  };
+  /**
+   * Table of contents (can be auto-generated)
+   */
+  tableOfContents?:
+    | {
+        heading: string;
+        /**
+         * URL anchor (auto-generated from heading)
+         */
+        anchor: string;
+        level?: ('2' | '3' | '4') | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Standalone code examples for the post
+   */
+  codeExamples?:
+    | {
+        title: string;
+        language:
+          | 'javascript'
+          | 'typescript'
+          | 'python'
+          | 'java'
+          | 'cpp'
+          | 'csharp'
+          | 'go'
+          | 'rust'
+          | 'php'
+          | 'ruby'
+          | 'html'
+          | 'css'
+          | 'sql'
+          | 'bash'
+          | 'other';
+        code: string;
+        description?: string | null;
+        /**
+         * Can this code be run in a playground?
+         */
+        runnable?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * What readers should know before reading this post
+   */
+  prerequisites?:
+    | {
+        prerequisite?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * What readers will learn from this post
+   */
+  learningOutcomes?:
+    | {
+        outcome?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Related blog posts
+   */
+  relatedPosts?: (number | Blog)[] | null;
+  /**
+   * Useful external links and resources
+   */
+  externalLinks?:
+    | {
+        title: string;
+        url: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
    * Tags for better categorization
    */
@@ -393,17 +550,37 @@ export interface Blog {
       }[]
     | null;
   /**
+   * Feature this post on the homepage
+   */
+  featured?: boolean | null;
+  /**
+   * Allow comments on this post
+   */
+  allowComments?: boolean | null;
+  /**
    * Publication status
    */
-  status?: ('draft' | 'published' | 'archived') | null;
+  status?: ('draft' | 'published' | 'scheduled' | 'archived') | null;
   /**
    * When the post was/will be published
    */
   publishedAt?: string | null;
   /**
-   * Estimated reading time in minutes
+   * When the post was last updated
+   */
+  updatedAt: string;
+  /**
+   * Estimated reading time in minutes (auto-calculated)
    */
   readingTime?: number | null;
+  /**
+   * Number of views (auto-updated)
+   */
+  views?: number | null;
+  /**
+   * Number of likes (auto-updated)
+   */
+  likes?: number | null;
   seo?: {
     /**
      * SEO title (if different from main title)
@@ -417,8 +594,15 @@ export interface Blog {
      * SEO keywords (comma-separated)
      */
     keywords?: string | null;
+    /**
+     * Canonical URL if content is published elsewhere first
+     */
+    canonicalUrl?: string | null;
+    /**
+     * Custom Open Graph image (defaults to featured image)
+     */
+    ogImage?: (number | null) | Media;
   };
-  updatedAt: string;
   createdAt: string;
 }
 /**
@@ -1546,23 +1730,85 @@ export interface BlogsSelect<T extends boolean = true> {
   content?: T;
   featuredImage?: T;
   category?: T;
+  subcategory?: T;
+  difficulty?: T;
+  primaryLanguage?: T;
+  technologies?:
+    | T
+    | {
+        technology?: T;
+        id?: T;
+      };
+  series?:
+    | T
+    | {
+        isPartOfSeries?: T;
+        seriesName?: T;
+        seriesOrder?: T;
+        seriesDescription?: T;
+      };
+  tableOfContents?:
+    | T
+    | {
+        heading?: T;
+        anchor?: T;
+        level?: T;
+        id?: T;
+      };
+  codeExamples?:
+    | T
+    | {
+        title?: T;
+        language?: T;
+        code?: T;
+        description?: T;
+        runnable?: T;
+        id?: T;
+      };
+  prerequisites?:
+    | T
+    | {
+        prerequisite?: T;
+        id?: T;
+      };
+  learningOutcomes?:
+    | T
+    | {
+        outcome?: T;
+        id?: T;
+      };
+  relatedPosts?: T;
+  externalLinks?:
+    | T
+    | {
+        title?: T;
+        url?: T;
+        description?: T;
+        id?: T;
+      };
   tags?:
     | T
     | {
         tag?: T;
         id?: T;
       };
+  featured?: T;
+  allowComments?: T;
   status?: T;
   publishedAt?: T;
+  updatedAt?: T;
   readingTime?: T;
+  views?: T;
+  likes?: T;
   seo?:
     | T
     | {
         metaTitle?: T;
         metaDescription?: T;
         keywords?: T;
+        canonicalUrl?: T;
+        ogImage?: T;
       };
-  updatedAt?: T;
   createdAt?: T;
 }
 /**

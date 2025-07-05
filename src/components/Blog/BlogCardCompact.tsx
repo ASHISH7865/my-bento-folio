@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, BookOpen, Clock, Calendar, FileText } from 'lucide-react'
 import { motion } from 'framer-motion'
-import { Blog } from '@/payload-types'
+import { Blog, Media } from '@/payload-types'
 
 interface BlogCardCompactProps {
   blogs: Blog[]
@@ -40,7 +40,7 @@ const BlogCardCompact: React.FC<BlogCardCompactProps> = ({ blogs }) => {
   }
 
   return (
-    <div className="h-full flex flex-col p-6 w-full overflow-y-auto scrollbar-custom">
+    <div className="h-full flex flex-col p-6 w-full overflow-y-auto scrollbar-custom border rounded-xl">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -93,7 +93,7 @@ const BlogCardCompact: React.FC<BlogCardCompactProps> = ({ blogs }) => {
                     {blog.featuredImage && typeof blog.featuredImage === 'object' && 'url' in blog.featuredImage && blog.featuredImage.url ? (
                       <div className="relative w-12 h-12 rounded-md overflow-hidden flex-shrink-0">
                         <Image
-                          src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${blog.featuredImage.url}`}
+                          src={(blog.featuredImage as Media)?.cloudinary?.secure_url as string}
                           alt={blog.title}
                           fill
                           className="object-cover"

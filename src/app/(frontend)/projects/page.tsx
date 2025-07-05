@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 import configPromise from '@/payload.config'
@@ -14,6 +15,7 @@ export default async function ProjectsPage() {
     sort: '-publishedAt',
     limit: 50,
   }) as { docs: any[] }
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -59,7 +61,7 @@ export default async function ProjectsPage() {
               <ProjectCard
                 key={project.id}
                 project={project}
-                onCardClick={() => {}} // Not used in this context
+                // onCardClick={() => {}} // Not used in this context
               />
             ))}
           </div>

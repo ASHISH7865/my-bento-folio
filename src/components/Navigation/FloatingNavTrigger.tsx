@@ -27,7 +27,7 @@ const FloatingNavTrigger = () => {
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 1, type: "spring", stiffness: 260, damping: 20 }}
-                className="fixed bottom-8 right-8 z-40 sm:top-6 sm:right-6"
+                className="fixed bottom-8 right-8 z-40 sm:top-6 sm:right-6 h-fit"
             >
                 <motion.button
                     onClick={toggleNav}

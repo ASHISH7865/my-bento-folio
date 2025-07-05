@@ -39,7 +39,7 @@ const InfoCard = ({ className, profile }: InfoCardProps) => {
     <div
       className={cn(
         className,
-        'flex flex-col overflow-hidden size-full relative z-10 p-5 items-start justify-between gap-8 max-sm:h-[275px] max-sm:gap-4',
+        'flex flex-col overflow-hidden border rounded-xl size-full relative z-10 p-5 items-start justify-between gap-8 max-sm:h-[275px] max-sm:gap-4',
       )}
     >
       <div className="w-full flex justify-between items-start">

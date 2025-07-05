@@ -18,7 +18,7 @@ const TechStack = ({ techStack }: TechStackProps) => {
     }, {} as Record<string, string[]>);
 
     return (
-        <div className='flex flex-col gap-4 p-4 group'>
+        <div className='flex flex-col gap-4 p-4 group border rounded-xl'>
             <div className='flex md:flex-col items-center md:items-start gap-2'>
                 <Code className='w-8 h-8 md:w-16 md:h-16' />
                 <div className='flex md:flex-col gap-2'>
@@ -33,7 +33,9 @@ const TechStack = ({ techStack }: TechStackProps) => {
                         <p className='capitalize'>{category}</p>
                         <div className='flex flex-wrap gap-2'>
                             {skills.map((skill: string) => (
-                                <Badge variant="outline" className='rounded-full' key={skill}>{skill}</Badge>
+                                <Badge variant="outline" className='rounded-none px-0.5' key={skill}>
+                                    <Badge variant="outline" className='rounded-none' key={skill}>{skill}</Badge>
+                                </Badge>
                             ))}
                         </div>
                     </div>

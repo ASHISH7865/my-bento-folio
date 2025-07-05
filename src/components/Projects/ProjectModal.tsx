@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel'
 import { ExternalLink, Github, Calendar, ChevronLeft, ChevronRight, X, Eye, Code, Sparkles } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Media } from '@/payload-types'
 
 interface Project {
   id: string
@@ -185,8 +186,8 @@ const ProjectModal: React.FC<ProjectModalProps> = ({
                           <CarouselItem key={index}>
                             <div className="relative aspect-video rounded-lg overflow-hidden bg-muted/20">
                               <Image
-                                src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${img.image.url}`}
-                                alt={img.image.alt || img.caption || currentProject.title}
+                                src={(img.image as Media)?.cloudinary?.secure_url as string}
+                                alt={img.caption || currentProject.title}
                                 fill
                                 className="object-cover"
                               />
@@ -222,7 +223,7 @@ const ProjectModal: React.FC<ProjectModalProps> = ({
                           }`}
                         >
                           <Image
-                            src={`${process.env.NEXT_PUBLIC_PAYLOAD_URL}${img.image.url}`}
+                            src={(img.image as Media)?.cloudinary?.secure_url as string}
                             alt=""
                             fill
                             className="object-cover"
