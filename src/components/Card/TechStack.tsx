@@ -9,13 +9,15 @@ interface TechStackProps {
 }
 
 const TechStack = ({ techStack }: TechStackProps) => {
-    // Convert array of tech stack items into an object grouped by category
-    const groupedTechStack = techStack.reduce((acc: Record<string, string[]>, item) => {
-        return {
-            ...acc,
-            [item.category]: item.skills?.map(skill => skill?.name).filter((name): name is string => Boolean(name)) || []
-        }
-    }, {} as Record<string, string[]>);
+    // Sort tech stack by order and convert array into an object grouped by category
+    const groupedTechStack = techStack
+        .sort((a, b) => (a.order || 0) - (b.order || 0)) // Sort by order first
+        .reduce((acc: Record<string, string[]>, item) => {
+            return {
+                ...acc,
+                [item.category]: item.skills?.map(skill => skill?.name).filter((name): name is string => Boolean(name)) || []
+            }
+        }, {} as Record<string, string[]>);
 
     return (
         <div className='flex flex-col gap-4 p-4 group border rounded-xl'>
@@ -28,6 +30,7 @@ const TechStack = ({ techStack }: TechStackProps) => {
                 </div>
             </div>
             <div className='h-[400px] overflow-y-auto pr-4 scrollbar-custom'>
+                {/* Map through the sorted and grouped tech stack */}
                 {Object.entries(groupedTechStack).map(([category, skills]) => (
                     <div key={category} className='space-y-2 mb-4'>
                         <p className='capitalize'>{category}</p>

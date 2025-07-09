@@ -16,6 +16,7 @@
     "seed:resume": "payload run scripts/seed-resume.ts",
     "seed:about": "payload run scripts/seed-about.ts",
     "seed:contact": "payload run scripts/seed-contact.ts",
+    "seed:techstack": "payload run scripts/seed-techstack.ts",
     "create:blog": "payload run scripts/create-sample-blog.ts",
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
@@ -63,7 +64,7 @@
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "embla-carousel-react": "^8.5.2",
-    "framer-motion": "^12.4.2",
+    "framer-motion": "^12.23.1",
     "graphql": "^16.8.1",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.474.0",

@@ -289,6 +289,10 @@ export interface Profile {
 export interface TechStack {
   id: number;
   category: string;
+  /**
+   * Order in which this category should appear (1 for first, etc.)
+   */
+  order: number;
   skills?:
     | {
         name?: string | null;
@@ -1694,6 +1698,7 @@ export interface ProfilesSelect<T extends boolean = true> {
  */
 export interface TechStackSelect<T extends boolean = true> {
   category?: T;
+  order?: T;
   skills?:
     | T
     | {
