@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import { useTheme } from 'next-themes'
 import { MorphingText } from '@/components/ui/morphing-text'
 import { Media, Profile } from '@/payload-types'
+import Link from 'next/link'
 
 
 interface InfoCardProps {
@@ -39,7 +40,7 @@ const InfoCard = ({ className, profile }: InfoCardProps) => {
         <div
             className={cn(
                 className,
-                'flex flex-col h-full overflow-hidden border rounded-xl size-full relative z-10 p-5 items-start justify-between gap-8 max-sm:h-[275px] max-sm:gap-4',
+                'flex flex-col h-full overflow-hidden border rounded-xl size-full relative z-10 p-5 items-start justify-between gap-8  max-sm:gap-4',
             )}
         >
             <div className="w-full flex justify-between items-start">
@@ -59,9 +60,24 @@ const InfoCard = ({ className, profile }: InfoCardProps) => {
                     </div>
                 </div>
                 <div className="flex flex-col items-end">
-                    <Button className="rounded-full" variant={'ghost'} onClick={toggleTheme}>
-                        {theme === 'dark' ? <Sun /> : <Moon />}
-                    </Button>
+                    <div className='flex gap-2 items-center'>
+                        <Link
+                            href="/resume"
+                            className="px-4 hidden md:block py-2 rounded-lg text-sm font-medium text-white dark:text-black shadow-md hover:shadow-lg hover:scale-105 transform transition duration-300"
+                        >
+                            Resume
+                        </Link>
+
+                        <Link
+                            href="/about"
+                            className="px-4 py-2 hidden md:block rounded-lg text-sm font-medium text-white dark:text-black border shadow-md hover:shadow-lg hover:scale-105 transform transition duration-300"
+                        >
+                            About Me
+                        </Link>
+                        <Button className="rounded-full" variant={'ghost'} onClick={toggleTheme}>
+                            {theme === 'dark' ? <Sun /> : <Moon />}
+                        </Button>
+                    </div>
                     <div className="flex items-center gap-1 text-sm text-zinc-500 mt-1">
                         <MapPin className="text-blue-500" size={14} />
                         <span>Noida, India</span>
@@ -78,6 +94,7 @@ const InfoCard = ({ className, profile }: InfoCardProps) => {
                     </div>
                     <span>.</span>
                 </div>
+
                 <p className="text-xs flex flex-col gap-2 text-md font-mono dark:text-black/90 text-zinc-200/90">
                     {profile.bio?.map((bio, i) => (
                         <span key={i}>{bio?.text}</span>
@@ -100,6 +117,7 @@ const InfoCard = ({ className, profile }: InfoCardProps) => {
                         ></div>
                         <p className="text-[11px]">{profile.availability?.text}</p>
                     </div>
+
                     <div className="flex flex-row-reverse items-end gap-3">
                         {isMounted && currentTime ? (
                             <>
