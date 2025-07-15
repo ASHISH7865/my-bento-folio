@@ -62,12 +62,12 @@ const ContactLinks = ({ className, profile }: ContactLinksProps) => {
 
     return (
         <div className={cn(
-            'relative flex w-full  rounded-xl border dark:border-dark-5 border-dark-3 transform-gpu bg-dark-1 [box-shadow:0_0px_60px_-20px_#ffffff1f_inset] cursor-grab dark:bg-white h-full',
+            'relative flex w-full rounded-xl border dark:border-dark-5 border-dark-3 transform-gpu bg-dark-1 [box-shadow:0_0px_60px_-20px_#ffffff1f_inset] cursor-grab dark:bg-white h-full',
             className
         )}>
-            <div className="flex flex-col md:flex-row overflow-hidden size-full relative z-10 p-4 items-start justify-between gap-4 max-sm:gap-3">
+            <div className="flex flex-col md:flex-row overflow-hidden size-full relative z-10 p-4 items-start justify-between gap-4 max-sm:gap-2">
                 {/* Header */}
-                <div className="">
+                <div className="w-full md:w-auto">
                     <div className="flex items-center gap-2 mb-3">
                         <div className="p-1.5 rounded-md bg-primary/10 dark:bg-primary/20">
                             <MessageSquare className="w-4 h-4 text-primary" />
@@ -78,23 +78,23 @@ const ContactLinks = ({ className, profile }: ContactLinksProps) => {
                         </div>
                     </div>
                     <div className="w-full space-y-3">
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-2 gap-2 md:gap-3">
                             <Button
                                 onClick={handleHireMe}
-                                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium h-9"
+                                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium h-8 md:h-9"
                             >
-                                <Briefcase className="w-3 h-3 mr-2" />
-                                <span className="text-xs">Hire Me</span>
+                                <Briefcase className="w-3 h-3 mr-1.5 md:mr-2" />
+                                <span className="text-[11px] md:text-xs">Hire Me</span>
                             </Button>
 
                             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                                 <DialogTrigger asChild>
                                     <Button
                                         variant="outline"
-                                        className="w-full h-9"
+                                        className="w-full h-8 md:h-9"
                                     >
-                                        <Mail className="w-3 h-3 mr-2" />
-                                        <span className="text-xs">Contact</span>
+                                        <Mail className="w-3 h-3 mr-1.5 md:mr-2" />
+                                        <span className="text-[11px] md:text-xs">Contact</span>
                                     </Button>
                                 </DialogTrigger>
                                 <DialogContent className="sm:max-w-md">
@@ -108,15 +108,12 @@ const ContactLinks = ({ className, profile }: ContactLinksProps) => {
                     </div>
                 </div>
 
-                {/* Action Buttons */}
-
-
                 {/* Social Links */}
-                <div className="lg:self-end">
+                <div className="lg:self-end w-full md:w-auto">
                     <div className="mb-2">
-                        <p className="text-xs font-medium text-muted-foreground mb-2">Follow & Connect</p>
+                        <p className="text-xs font-medium text-muted-foreground mb-1.5 md:mb-2">Follow & Connect</p>
                     </div>
-                    <div className="flex flex-wrap  gap-2">
+                    <div className="grid grid-cols-4 md:flex md:flex-wrap gap-1.5 md:gap-2">
                         {socialLinks.map((link) => {
                             const Icon = link.icon
                             return (
@@ -126,13 +123,12 @@ const ContactLinks = ({ className, profile }: ContactLinksProps) => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={cn(
-                                        "flex items-center w-fit gap-2 p-2 rounded-md border border-border/50 bg-background/30 hover:bg-background/50 transition-colors text-xs",
+                                        "flex items-center justify-center md:justify-start w-full md:w-fit gap-1.5 md:gap-2 p-1.5 md:p-2 rounded-md border border-border/50 bg-background/30 hover:bg-background/50 transition-colors",
                                         link.color
                                     )}
                                 >
-                                    <Icon className="w-5 h-5" />
-                                    {/* <span>{link.name}</span> */}
-                                    <ExternalLink className="w-2 h-2 ml-auto opacity-50" />
+                                    <Icon className="w-4 h-4 md:w-5 md:h-5" />
+                                    <ExternalLink className="w-2 h-2 opacity-50 hidden md:block" />
                                 </a>
                             )
                         })}

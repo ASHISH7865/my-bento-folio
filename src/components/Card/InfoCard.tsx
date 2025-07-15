@@ -40,52 +40,60 @@ const InfoCard = ({ className, profile }: InfoCardProps) => {
         <div
             className={cn(
                 className,
-                'flex flex-col h-full overflow-hidden border rounded-xl size-full relative z-10 p-5 items-start justify-between gap-8  max-sm:gap-4',
+                'flex flex-col h-full overflow-hidden border rounded-xl size-full relative z-10 p-5 items-start justify-between gap-4  max-sm:gap-4',
             )}
         >
-            <div className="w-full flex justify-between items-start">
-                <div className="flex gap-3">
-                    <Image
-                        className="rounded-full size-16 object-cover"
-                        src={(profile.image as Media)?.cloudinary?.secure_url as string}
-                        alt={`${profile.name}'s profile`}
-                        width={64}
-                        height={64}
-                    />
-                    <div className="flex flex-col">
-                        <span className="font-bold text-lg">{profile.name}</span>
-                        <span className="text-md font-mono dark:text-black/70 text-zinc-400/80">
-                            {profile.username}
-                        </span>
+            <div className="w-full flex flex-col justify-between items-start">
+                <div className='flex gap-2 w-full justify-between'>
+
+                    <div className="flex gap-3">
+                        <Image
+                            className="rounded-full size-16 object-cover"
+                            src={(profile.image as Media)?.cloudinary?.secure_url as string}
+                            alt={`${profile.name}'s profile`}
+                            width={64}
+                            height={64}
+                        />
+                        <div className="flex flex-col">
+                            <span className="font-bold text-lg">{profile.name}</span>
+                            <span className="text-md font-mono dark:text-black/70 text-zinc-400/80">
+                                {profile.username}
+                            </span>
+                        </div>
+                    </div>
+                    <div className="flex flex-col items-end">
+                        <div className='flex gap-2 items-center'>
+                            <Button className="rounded-full" variant={'ghost'} onClick={toggleTheme}>
+                                {theme === 'dark' ? <Sun /> : <Moon />}
+                            </Button>
+                        </div>
                     </div>
                 </div>
-                <div className="flex flex-col items-end">
-                    <div className='flex gap-2 items-center'>
-                        <Link
-                            href="/resume"
-                            className="px-4 hidden md:block py-2 rounded-lg text-sm font-medium text-white dark:text-black shadow-md hover:shadow-lg hover:scale-105 transform transition duration-300"
-                        >
-                            Resume
-                        </Link>
 
-                        <Link
-                            href="/about"
-                            className="px-4 py-2 hidden md:block rounded-lg text-sm font-medium text-white dark:text-black border shadow-md hover:shadow-lg hover:scale-105 transform transition duration-300"
-                        >
-                            About Me
-                        </Link>
-                        <Button className="rounded-full" variant={'ghost'} onClick={toggleTheme}>
-                            {theme === 'dark' ? <Sun /> : <Moon />}
-                        </Button>
-                    </div>
-                    <div className="flex items-center gap-1 text-sm text-zinc-500 mt-1">
+                {/* Location and Navigation Links */}
+                <div className='flex flex-col sm:flex-row gap-3 sm:gap-4 w-full items-start sm:items-center justify-between'>
+                    <div className="flex items-center gap-1 text-sm text-zinc-500">
                         <MapPin className="text-blue-500" size={14} />
                         <span>Noida, India</span>
                         <span className="text-xs">(GMT+5:30)</span>
                     </div>
+                    <div className="flex gap-3">
+                        <Link
+                            href="/resume"
+                            className="group px-3 py-1.5 text-sm font-medium relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100"
+                        >
+                            Resume
+                        </Link>
+                        <div className="h-4 w-[1px] my-auto bg-zinc-200 dark:bg-zinc-700" />
+                        <Link
+                            href="/about"
+                            className="group px-3 py-1.5 text-sm font-medium relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100"
+                        >
+                            About Me
+                        </Link>
+                    </div>
                 </div>
             </div>
-
             <div className="flex flex-col gap-1 overflow-hidden w-full">
                 <div className="font-bold w-full flex items-center justify-start gap-1">
                     <p className="inline text-lg">I build</p>
@@ -115,7 +123,7 @@ const InfoCard = ({ className, profile }: InfoCardProps) => {
                                 profile.availability?.status ? 'bg-green-500' : 'bg-red-500',
                             )}
                         ></div>
-                        <p className="text-[11px]">{profile.availability?.text}</p>
+                        <p className="text-[11px] text-nowrap">{profile.availability?.text}</p>
                     </div>
 
                     <div className="flex flex-row-reverse items-end gap-3">

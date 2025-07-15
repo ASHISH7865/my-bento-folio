@@ -29,7 +29,7 @@ const TechStack = ({ techStack }: TechStackProps) => {
                     <div className='md:block hidden h-1 bg-primary rounded-full w-0 group-hover:w-full transition-all duration-500 ease-in-out'></div>
                 </div>
             </div>
-            <div className='h-[400px] overflow-y-auto pr-4 scrollbar-custom'>
+            <div className='overflow-y-auto pr-4 scrollbar-custom'>
                 {/* Map through the sorted and grouped tech stack */}
                 {Object.entries(groupedTechStack).map(([category, skills]) => (
                     <div key={category} className='space-y-2 mb-4'>
@@ -37,7 +37,7 @@ const TechStack = ({ techStack }: TechStackProps) => {
                         <div className='flex flex-wrap gap-2'>
                             {skills.map((skill: string) => (
                                 <Badge variant="outline" className='rounded-none px-0.5' key={skill}>
-                                    <Badge variant="outline" className='rounded-none' key={skill}>{skill}</Badge>
+                                    <Badge variant="outline" className='rounded-none text-sm' key={skill}>{skill}</Badge>
                                 </Badge>
                             ))}
                         </div>

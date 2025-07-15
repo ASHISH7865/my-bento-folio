@@ -47,12 +47,12 @@ export default async function HomePage() {
                     <InfoCard profile={profileData.docs[0]} />
                 </div>
 
-                <div className={`${cardClasses} md:col-start-1 md:col-end-3 md:row-start-1 md:row-end-5 z-10`}>
+                <div className={`${cardClasses} md:col-start-1 md:col-end-3 md:row-start-1 md:row-end-6 z-10`}>
                     <TechStackComponent techStack={techStackData.docs} />
                 </div>
 
                 {/* Projects Card */}
-                <div className={`${cardClasses} md:col-start-1 md:col-end-9 md:row-start-5 md:row-end-5 z-10`}>
+                <div className={`${cardClasses} md:col-start-3 md:col-end-9 md:row-start-5 md:row-end-5 z-10`}>
                     <ContactLinks profile={profileData.docs[0]} />
                 </div>
 
