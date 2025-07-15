@@ -18,7 +18,7 @@ export const Contacts: CollectionConfig = {
       type: 'text',
       required: true,
       admin: {
-        description: 'Contact person\'s full name',
+        description: "Contact person's full name",
       },
     },
     {
@@ -26,14 +26,14 @@ export const Contacts: CollectionConfig = {
       type: 'email',
       required: true,
       admin: {
-        description: 'Contact person\'s email address',
+        description: "Contact person's email address",
       },
     },
     {
       name: 'phone',
       type: 'text',
       admin: {
-        description: 'Contact person\'s phone number (optional)',
+        description: "Contact person's phone number (optional)",
       },
     },
     {
@@ -87,6 +87,25 @@ export const Contacts: CollectionConfig = {
       },
     },
     {
+      name: 'referer',
+      type: 'text',
+      admin: {
+        description: 'Referrer URL where the form was submitted from',
+        readOnly: true,
+      },
+    },
+    {
+      name: 'submittedAt',
+      type: 'date',
+      admin: {
+        description: 'When the contact form was submitted',
+        readOnly: true,
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+      },
+    },
+    {
       name: 'notes',
       type: 'textarea',
       admin: {
@@ -100,16 +119,23 @@ export const Contacts: CollectionConfig = {
         // Add IP address and user agent if available
         if (req) {
           // Try to get IP from various sources
-          const reqWithIp = req as { ip?: string; connection?: { remoteAddress?: string }; socket?: { remoteAddress?: string } }
-          const ip = reqWithIp.ip ||
-                    reqWithIp.connection?.remoteAddress ||
-                    reqWithIp.socket?.remoteAddress ||
-                    req.headers.get('x-forwarded-for') ||
-                    req.headers.get('x-real-ip') ||
-                    'unknown'
+          const reqWithIp = req as {
+            ip?: string
+            connection?: { remoteAddress?: string }
+            socket?: { remoteAddress?: string }
+          }
+          const ip =
+            reqWithIp.ip ||
+            reqWithIp.connection?.remoteAddress ||
+            reqWithIp.socket?.remoteAddress ||
+            req.headers.get('x-forwarded-for') ||
+            req.headers.get('x-real-ip') ||
+            'unknown'
 
           data.ipAddress = ip
           data.userAgent = req.headers.get('user-agent') || 'unknown'
+          data.referer = req.headers.get('referer') || 'unknown'
+          data.submittedAt = new Date().toISOString()
         }
         return data
       },

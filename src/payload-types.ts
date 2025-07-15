@@ -337,6 +337,14 @@ export interface Contact {
    */
   userAgent?: string | null;
   /**
+   * Referrer URL where the form was submitted from
+   */
+  referer?: string | null;
+  /**
+   * When the contact form was submitted
+   */
+  submittedAt?: string | null;
+  /**
    * Internal notes about this contact inquiry
    */
   notes?: string | null;
@@ -1720,6 +1728,8 @@ export interface ContactsSelect<T extends boolean = true> {
   status?: T;
   ipAddress?: T;
   userAgent?: T;
+  referer?: T;
+  submittedAt?: T;
   notes?: T;
   updatedAt?: T;
   createdAt?: T;
